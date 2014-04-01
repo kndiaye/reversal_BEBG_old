@@ -1,0 +1,61 @@
+REMIJNSE
+
+mental task consisted of 2 stimuli, ie, cartoons of a bus and a tie, which were presented at either side of a screen with ran- domized locations for 3000 milliseconds maximally. Subjects selected either stimulus by pressing the left or right button on a button box. On a correct response, either positive or nega- tive feedback was given based on an 80:20 ratio, 
+False re- sponses (spontaneous errors [SEs]) were always given nega- tive feedback. Criterion for reversal was reached after 6 to 10 correct responses (randomized). Immediately after reversal (un- known to the subject), a false response (according to the new
+Each trial ended with a 2000-millisecond display of both the number of points won or lost in that trial and the number of accumulated points in the task up to that trial followed by a fixation cross for 1000 milliseconds. 
+, a 5-item OC ques- tionnaire was administered in the patient group to assess the degree and severity of OC symptoms during the task. This ques- tionnaire consisted of 3 items related to obsessions (assessing their time-consuming, task-interfering, and anxiety- provocative properties) and 2 items related to compulsions (as- sessing the time spent on mental compulsions and the urge to perform compulsive behavior), all of which were rated on a 5-point scale. 
+
+
+
+HAMPTON 2006 
+
+One stimulus was designated the correct stimulus in that choice of that stimulus lead to a monetary reward (winning 25 cents) on 70% of occasions and a monetary loss (losing 25 cents) 30% of the time. Consequently, choice of this correct stimulus lead to accumulating mon- etary gain. The other stimulus was incorrect in that choice of that stim- ulus lead to a reward 40% of the time and a punishment 60% of the time, thus leading to a cumulative monetary loss. The specific reward sched- ules used here are based on those used in previous studies of probabilistic reversal learning (O’Doherty et al., 2001; Hornak et al., 2004). After having chosen the correct stimulus on four consecutive occasions, the contingencies reversed with a probability of 0.25 on each successive trial. Once reversal occurred, subjects then needed to choose the new correct stimulus, on four consecutive occasions, before reversal could occur again (with 0.25 probability). 
+
+
+Den OUDEN
+
+
+
+
+COOLS 2001
+
+Each block consisted of 10 discrimination stages, and therefore, 9 reversal stages. Reversal of the stimulus–reward contingency occurred after between 10 and 15 correct responses (including probabilistic errors). The number of probabilistic errors between each reversal varied from 0 to 4. To prevent subjects from adopting a strategy such as always reversing after two consecutive errors, probabilistic negative feedback was given on two consecutive trials once during each task block. Each block lasted ~8.5 min depending on level of performance
+On each individual trial, the stimuli were presented for 2000 msec within which the response had to be made (or else a “too late” message was presented). Feedback, consisting of a green smiley face for correct responses or a red sad face for incorrect responses, was presented immediately after the response (Fig. 1). The feedback faces were presented centrally, between the 2 stimuli, for 500 msec during which the stimuli also remained on the screen. After feedback, the stimuli were removed and the face was replaced by a fixation cross for a variable interval so that the overall interstimulus interval was 3253 msec, e
+
+
+WALTZ & GOLD 2007
+The choice of one of the stimuli was reinforced 80% of the time (a choice of the other stimulus was reinforced the remaining 20% of the time). If subjects reached a criterion of 9 choices of the more-frequently reinforced stimulus in a block of ten trials (in 50 or fewer total trials), the reinforcement contingencies for the stimuli were reversed: the stimulus that was reinforced 80% of the time previously was now reinforced only 20% of the time. In order to reach criterion in this phase, subjects need to detect the shift in reinforcement contingencies and learn to choose the stimulus now reinforced 80% of the time. If subjects succeeded in reaching criterion in this phase, the reinforcement contingencies were reversed one more time, and subjects needed to learn to choose the stimulus that was originally correct, in order to reach criterion. Each subject thus completed up to 2 reversal stages with each stimulus pair (or up to 6 total, along with the 3 initial discrimination stages).
+
+
+PATZELT 2014
+At the onset of each block, participants were in an acquisition stage. The partic- ipants were required to achieve 90% accuracy within 10–14 consecutive responses for a reversal to occur (reversal stage) and in the absence of this goal the block would end after 50 trials. The number of trials needed to meet 90% accuracy (and corresponding reversal) defined trials to reversal. The reversal allotment and correct response requirement were consistent and independent between the three blocks of the task. Additionally at each reversal stage, if the subject did not achieve the 90% accuracy required for a reversal to occur within 50 trials the block ended and they were automatically advanced to the next block.
+
+
+
+
+FREYER
+A feedback in the form of a green happy face or a sad red face pictogram was presented immediately after the choice, indicating whether the answer was correct or incorrect. After 10 to 15 (randomized) correct responses, the target object changed and subjects had to adapt their strategy by selecting the previously incorrect stimulus. As an additional challenge, prob- abilistic errors were interspersed, leading to negative feedback despite a correct response in respect of the current rule. If subjects changed their strategy after a probabilistic error, this was counted as a mistake (SCAPE=strategy change after a probabilistic error). Subjects were asked to respond as rapidly as possible without compromising accuracy.
+Two successive 9-min runs within one scanning session, each with 10 rule changes (hence nine reversal stages), were presented. Each discrimination phase contained between zero and four probabilistic errors. Objects appeared for a maximum of 2 s, limited by subjects’ responses. Feedback was presented immedi- ately after subject responses for 0.5 s, followed by a fixation cross for a minimum of 0.8 s, leading to an interstimulus interval of 3.3 s.
+
+
+
+VALERIUS 2008
+ After their response, feedback in the shape of either a green smiling face or a red sad face appeared, indicating whether their response was correct or incorrect. After 10 to 15 (randomized) correct responses, the strategy changed and subjects had to adapt their reactions and respond to the formerly wrong stimulus. To distract subjects, probabilistic errors were interspersed, indicating a wrong choice despite a correct response. In 20% of all cases, two consecutive probabi- listic errors appeared. A visual explanation of the rever- sal learning task is given in Figure 1. If a subject changed his or her strategy after a probabilistic error, this was counted as a mistake (SCAPE􏲣strategy change after a probabilistic error). Subjects were asked to both avoid mistakes and respond as fast as possible. Subjects’ re- actions were classified according to the number of cor- rect responses, strategy changes after a probabilistic er- ror, reversal errors, and other errors. The last reversal error indicated the moment when a subject changed his or her strategy. Furthermore, reaction times of each re- action parameter were determined. Three blocks with 10 discrimination phases each were presented. Each dis- crimination phase contained between 0 and 4 probabi- listic errors. Objects appeared for 2 seconds in which subjects had to respond. Feedback was presented for 0.5 seconds, followed by a fixation cross. The inter-stimulus interval was 3.3 seconds (Figure 1).
+
+
+
+
+
+CHASE 2011 (EEG)
+The study used a probabilistic reversal learning paradigm, adapted from Cools, Lewis, Clark, Barker, and Robbins (2007) and Cools et al. (2002), administered on a desktop computer. Responses were recorded using a button box. On each trial, two Hiragana characters were presented on either side of a central fixation point. Participants were in- structed to select one of the characters and received feed- back on their choice in the form of either a green smiling face (reward) or a red frowning face (punishment). One of the stimuli (the correct stimulus) would result in reward on 80% of trials, whereas the other (the incorrect stimu- lus) would be rewarded on 20% of trials. Intermittently, the contingencies reversed, after between 4 and 10 choices of the highly rewarded stimulus. After contingency reversal, selection of the previously correct stimulus would lead to punishment on every trial until the subject selected the now-correct stimulus. s 
+ Each block contained four reversals. Participants completed 10 blocks, preceded by a short practice session. Participants were presented with the fol- lowing task instructions.
+...
+Stimuli remained on the screen until the subject made a response on the button box, then, after a 1000-msec de- lay, feedback was presented for 500 msec. The feedback/ subsequent stimuli delay was jittered between 750 and 1250 msec to ensure that feedback-related activity was not confounded by presentation of the next stimulus.
+
+
+
+CAVANAGH 2010 (EEG)
+
+Stimuli remained on the screen until the subject made a response on the button box, then, after a 1000-msec de- lay, feedback was presented for 500 msec. The feedback/ subsequent stimuli delay was jittered between 750 and 1250 msec to ensure that feedback-related activity was not confounded by presentation of the next stimulus.
+
+Whereas avoidance learning appears intact, probabilistic reversal learning is compromised in OCD patients (Chamberlain et al., 2008, Kim et al., 2003, Remijnse et al., 2006 and Valerius et al., 2008). 

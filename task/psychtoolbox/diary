@@ -1,0 +1,200 @@
+Running in: /Users/ndiaye/Desktop/reversal/psychtoolboxRunning on machine: puma-ndiaye.lan
+This is supposed to be a DEBUG machine!
+PARTICIPANT INFORMATION:
+
+      identifier: 'TEST'
+            date: '20140303-0648'
+        hostname: 'puma-ndiaye.lan'
+         session: 1
+    session_name: 'preopmeg'
+           flags: [1x1 struct]
+
+             with_training: 0
+      with_response_lumina: 0
+       with_response_mouse: 0
+    with_response_keyboard: 1
+             with_triggers: 1
+           with_eyetracker: 0
+            starting_block: 1
+
+
+=======================================
+======= START OF THE EXPERIMENT =======
+=======================================
+
+
+       **********************
+       **********************
+       ***   DEBUG MODE   ***
+       **********************
+       **********************
+
+Data folder should be: /Users/ndiaye/Desktop/reversal/../data/TEST
+Missing folder! /Users/ndiaye/Desktop/reversal/../data/TEST
+Data will be saved in: /private/tmp
+Saving session data in: /private/tmp/seqPD_20140303-0648_preopmeg
+Running in: /Users/ndiaye/Dropbox/PROJECTS/reversal/reversal_MEG/psychtoolboxRunning on machine: puma-ndiaye.lan
+This is supposed to be a DEBUG machine!
+PARTICIPANT INFORMATION:
+
+      identifier: 'TEST'
+            date: '20140311-0607'
+        hostname: 'puma-ndiaye.lan'
+         session: 1
+    session_name: 'preopmeg'
+           flags: [1x1 struct]
+
+             with_training: 0
+      with_response_lumina: 0
+       with_response_mouse: 0
+    with_response_keyboard: 1
+             with_triggers: 1
+           with_eyetracker: 0
+            starting_block: 1
+
+
+=======================================
+======= START OF THE EXPERIMENT =======
+=======================================
+
+
+       **********************
+       **********************
+       ***   DEBUG MODE   ***
+       **********************
+       **********************
+
+Data folder should be: /Users/ndiaye/Dropbox/PROJECTS/reversal/reversal_MEG/../data/TEST
+Missing folder! /Users/ndiaye/Dropbox/PROJECTS/reversal/reversal_MEG/../data/TEST
+Data will be saved in: /private/tmp
+Saving session data in: /private/tmp/reversal_20140311-0607_preopmeg
+Running in folder: C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox
+Running on machine: SFX-Ultrabook
+PARTICIPANT INFORMATION:
+
+            date: '20140312-1631'
+        hostname: 'SFX-Ultrabook'
+      identifier: 'TEST'
+         session: 1
+    session_name: 'comportementpreop'
+           flags: [1x1 struct]
+
+             with_training: 0
+      with_response_lumina: 0
+       with_response_mouse: 0
+    with_response_keyboard: 1
+             with_triggers: 0
+           with_eyetracker: 0
+            starting_block: 1
+
+
+=======================================
+======= START OF THE EXPERIMENT =======
+=======================================
+
+Data folder should be: C:\Users\Nabil\Dropbox\data\TEST
+  <a href="matlab:helpPopup MException" style="font-weight:bold">MException</a> with properties:
+
+    identifier: 'reversal:MissingDataFolder'
+       message: 'Missing data folder! C:\Users\Nabil\Dropbox\data\TEST
+'
+         cause: {0x1 cell}
+         stack: [4x1 struct]
+
+{Error using <a href="matlab:helpUtils.errorDocCallback('reversal_MEG>reversal_passation', 'C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m', 258)" style="font-weight:bold">reversal_MEG>reversal_passation</a> (<a href="matlab: opentoline('C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m',258,0)">line 258</a>)
+Missing data folder! C:\Users\Nabil\Dropbox\data\TEST
+
+
+Error in <a href="matlab:helpUtils.errorDocCallback('reversal_MEG>reversal_restart', 'C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m', 188)" style="font-weight:bold">reversal_MEG>reversal_restart</a> (<a href="matlab: opentoline('C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m',188,0)">line 188</a>)
+        [Passation,Passation.ErrorMsg] = reversal_passation(participant);
+
+Error in <a href="matlab:helpUtils.errorDocCallback('reversal_MEG>reversal_start', 'C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m', 116)" style="font-weight:bold">reversal_MEG>reversal_start</a> (<a href="matlab: opentoline('C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m',116,0)">line 116</a>)
+Passation = reversal_restart(participant);
+
+Error in <a href="matlab:helpUtils.errorDocCallback('reversal_MEG', 'C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m', 4)" style="font-weight:bold">reversal_MEG</a> (<a href="matlab: opentoline('C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m',4,0)">line 4</a>)
+    varargout=reversal_start;
+} 
+uiopen('D:\SFX\Mes recherches\Psycho expé\Probabilistic reversal lerning\Reversal final\psychtoolbox\reversal_MEG.m',1)
+reversal_MEG
+Running in folder: /Users/ndiaye/Dropbox/PROJECTS/reversal/reversal_MEG/psychtoolbox
+Running on machine: puma-ndiaye.lan
+This is supposed to be a DEBUG machine!
+PARTICIPANT INFORMATION:
+
+            date: '20140328-0308'
+        hostname: 'puma-ndiaye.lan'
+      identifier: 'TEST'
+         session: 1
+    session_name: 'comportementpreop'
+           flags: [1x1 struct]
+
+             with_training: 0
+      with_response_lumina: 0
+       with_response_mouse: 0
+    with_response_keyboard: 1
+             with_triggers: 0
+           with_eyetracker: 0
+            starting_block: 1
+
+
+=======================================
+======= START OF THE EXPERIMENT =======
+=======================================
+
+
+       **********************
+       **********************
+       ***   DEBUG MODE   ***
+       **********************
+       **********************
+
+Data folder should be: /Users/ndiaye/Dropbox/PROJECTS/reversal/reversal_MEG/../data/TEST
+Missing folder! /Users/ndiaye/Dropbox/PROJECTS/reversal/reversal_MEG/../data/TEST
+Data will be saved in: /private/tmp
+Saving session data in: /private/tmp/reversal_20140328-0308_comportementpreop
+Running in folder: C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox
+Running on machine: SFX-Ultrabook
+PARTICIPANT INFORMATION:
+
+            date: '20140330-1903'
+        hostname: 'SFX-Ultrabook'
+      identifier: 'TEST'
+         session: 1
+    session_name: 'comportementpreop'
+           flags: [1x1 struct]
+
+             with_training: 0
+      with_response_lumina: 0
+       with_response_mouse: 0
+    with_response_keyboard: 1
+             with_triggers: 1
+           with_eyetracker: 0
+            starting_block: 1
+
+
+=======================================
+======= START OF THE EXPERIMENT =======
+=======================================
+
+Data folder should be: C:\Users\Nabil\Dropbox\data\TEST
+  <a href="matlab:helpPopup MException" style="font-weight:bold">MException</a> with properties:
+
+    identifier: 'reversal:MissingDataFolder'
+       message: 'Missing data folder! C:\Users\Nabil\Dropbox\data\TEST
+'
+         cause: {0x1 cell}
+         stack: [4x1 struct]
+
+{Error using <a href="matlab:helpUtils.errorDocCallback('reversal_MEG>reversal_passation', 'C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m', 258)" style="font-weight:bold">reversal_MEG>reversal_passation</a> (<a href="matlab: opentoline('C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m',258,0)">line 258</a>)
+Missing data folder! C:\Users\Nabil\Dropbox\data\TEST
+
+
+Error in <a href="matlab:helpUtils.errorDocCallback('reversal_MEG>reversal_restart', 'C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m', 188)" style="font-weight:bold">reversal_MEG>reversal_restart</a> (<a href="matlab: opentoline('C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m',188,0)">line 188</a>)
+        [Passation,Passation.ErrorMsg] = reversal_passation(participant);
+
+Error in <a href="matlab:helpUtils.errorDocCallback('reversal_MEG>reversal_start', 'C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m', 116)" style="font-weight:bold">reversal_MEG>reversal_start</a> (<a href="matlab: opentoline('C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m',116,0)">line 116</a>)
+Passation = reversal_restart(participant);
+
+Error in <a href="matlab:helpUtils.errorDocCallback('reversal_MEG', 'C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m', 4)" style="font-weight:bold">reversal_MEG</a> (<a href="matlab: opentoline('C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m',4,0)">line 4</a>)
+    varargout=reversal_start;
+} 
