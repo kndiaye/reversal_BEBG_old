@@ -159,8 +159,8 @@ t=[ ...
     Data.i_trial(:) ...
     Data.i_block(:) ...
     Data.newblock(:) ...
-    Data.i_trial_per_block(:) ...
-    Data.i_trial_per_pair(:) ...
+    Data.i_trial_per_rev(:) ...
+    Data.i_trial_per_stims(:) ...
     Data.stims ...
     Data.side(:) ...
     Data.resp(:) ...
@@ -427,12 +427,11 @@ assignin('base','io',io)
 reversaltype = 'standard'; % | 'avoidance' 'perseveration'
 
 i_rev = 1;
-i_trial = 1;
-i_trial_per_rev = 1;
-i_trial_per_pair = 1;
+i_trial = 0;
+i_trial_per_rev = 0;
+i_trial_per_stims = 0;
 
 % Let's roll it!
-t=t_start;
 newblock  = true;
 terminate = false;
 stopped   = false;
@@ -440,13 +439,15 @@ stims = [0 0]; % No stims to ignore on 1st block
 
 while ~stopped && ~terminate
     
-    if i_trial_per_pair == 1
+    if i_trial == 0
         % (Re)starting (after a pause)
         if DEBUG
+        fprintf('\n');
             fprintf('[ DEBUG ] ');
+            fprintf('\n');        
         end
-        fprintf('\n\n\n');
-        fprintf('STARTING NEW BLOCK: %02d\n',i_rev);
+        fprintf('\n\n\n');     
+        fprintf(' * * * STARTING NEW BLOCK/REVERSAL: %02d * * * \n',i_rev);
 
         if participant.flags.with_eyetracker && ~is_training
             fprintf('Setting up the eye-tracker...\n');
@@ -516,6 +517,10 @@ while ~stopped && ~terminate
         
     end
     
+    i_trial = i_trial+1;
+    i_trial_per_rev   = i_trial_per_rev   + 1;
+    i_trial_per_stims = i_trial_per_stims + 1;
+    
     % Display each stimulus in a random spatial order (no clear mode)
     side = 2-round(rand);
     Screen('DrawTexture',io.video.h,stimuli.tex(stims(1)),[],stimuli.rec(  side,:));
@@ -565,8 +570,10 @@ while ~stopped && ~terminate
     accu=resp==side;
     if accu
         fprintf('correct');
+        n_correct_in_a_row = n_correct_in_a_row + 1;            
     else
         fprintf('wrong');
+        n_correct_in_a_row = 0;        
     end
     fb = accu;
     prob_error = rand<task.prob_error(2-accu);
@@ -585,19 +592,21 @@ while ~stopped && ~terminate
     Screen('DrawTexture',io.video.h,io.gfx.feedback.tex(2-fb),[],io.gfx.feedback.rec);
     t=Screen('Flip',io.video.h,t+io.video.roundfp(timing.prefeedback));
     if flags.with_triggers
-        io.trigger(trig.fb.onset+trig.fb.is_correct*accu+trig.fb.is_proberror*prob_error);
-        
-        %         io.trigger(255);
-        %         io.trigger(255*accu);
-        %         io.trigger(255*fb);
-        %         io.trigger(255);
+        ttl = trig.fb.onset+trig.fb.is_correct*accu+trig.fb.is_proberror*prob_error;
+        io.trigger(ttl);
+        if flags.with_triggers_1bit
+                 io.trigger(255);
+                 io.trigger(255*accu);
+                 io.trigger(255*fb);
+                 io.trigger(255);
+        end
     end
     Data.timecode.t_feedback(i_trial) = t;
     
     Data.i_trial(i_trial) = i_trial;
-    Data.i_block(i_trial) = i_rev;
-    Data.i_trial_per_block(i_trial) = i_trial_per_rev;
-    Data.i_trial_per_pair(i_trial) = i_trial_per_pair;
+    Data.i_rev(i_trial) = i_rev;
+    Data.i_trial_per_rev(i_trial)  = i_trial_per_rev;
+    Data.i_trial_per_stims(i_trial) = i_trial_per_stims;
     
     Data.newblock(i_trial) = newblock;
     Data.stims(i_trial,1:2) = stims([side 3-side]);
@@ -610,57 +619,36 @@ while ~stopped && ~terminate
     
     smalltext = '';
     newblock=false;
-    if i_trial_per_rev>=task.crit_rev
-        lasttrials = (i_trial-task.crit_rev+1):i_trial;
-        smalltext=sprintf('t: %d, b: %d',i_trial,i_rev);
-        smalltext=[smalltext '| ' ...
-            sprintf('%s',char(46+65*~Data.accu(lasttrials)+3*Data.newblock(lasttrials)))];
-        if all(Data.accu(lasttrials))
-            fprintf(', >= %d trials were correct: ',task.crit_rev);
-            if rand < task.prob_rev(1)
-                fprintf(' now we reverse!\n');
-                newblock = true;
-                stims=stims([2 1]);
-                if  mod(i_rev,task.pause_every_n_rev)==0
-                    % Pause
-                    fprintf('Pause... "space" to continue\n');
-                    DrawText(io.video.h, sprintf('On va faire une pause (%d)....',i_rev))
-                    t=Screen('Flip',io.video.h);
-                    pause;%KbTriggerWait(KbName('space'));
-                    fprintf('On reprend !\n');
-                    DrawText(io.video.h, 'On reprend....')
-                    t=Screen('Flip',io.video.h);
-                    WaitSecs(3);
-                    t=Screen('Flip',io.video.h);
-                end
-                
-                i_rev=i_rev+1;
-                i_trial_per_rev = 0;
-                fprintf('\nStarting block %d\n',i_rev);
-                if mod(i_rev,task.pause_every_n_rev)==0
-                    i_trial_per_pair = 0;
-                    stims = randpick(setdiff(1:numel(stimuli.tex),stims),2);
-                    fprintf('New stims: %d %d\n',stims);
-                end
-                if i_rev==41
-                    terminate=true;
-                end
-            end
+    if n_correct_in_a_row >= task.crit_rev
+        smalltext=sprintf('t: %d, r: %d',i_trial,i_rev);
+        fprintf(', %d >= %d trials were correct: ',n_correct_in_a_row,task.crit_rev);
+        if rand < task.prob_rev(1) || n_correct_in_a_row >= 15
+            fprintf(' now we reverse!\n');
+            newblock = true;
+            stims = stims([2 1]);                       
+            i_rev              = i_rev+1;
+            i_trial_per_rev    = 0;
+            n_correct_in_a_row = 0;
+                        
         end
     end
     Screen('TextSize', io.video.h, 10);
     DrawText(io.video.h,smalltext,'bl',70);
-    Screen('Flip',io.video.h,t+io.video.roundfp(timing.feedback));
-    
-    
-    
-    
-    i_trial = i_trial+1;
-    i_trial_per_rev=i_trial_per_rev+1;
-    i_trial_per_pair = i_trial_per_pair + 1;
-    fprintf('\n');
-    
-    
+    t=Screen('Flip',io.video.h,t+io.video.roundfp(timing.feedback)); 
+        
+    if i_rev==41
+        terminate=true;
+    elseif  mod(i_rev-1,task.pause_every_n_rev)==0
+        % Pause
+        fprintf('Pause...\n');
+        DrawText(io.video.h, sprintf('On va faire une pause (%d)....',i_rev))
+        Screen('Flip',io.video.h);
+                                 
+        % New stims
+        stims = randpick(setdiff(1:numel(stimuli.tex),stims),2);
+        fprintf('New stims: %d %d\n',stims);        
+        i_trial_per_stims = 0;
+    end
     
     
 end % trial loop
