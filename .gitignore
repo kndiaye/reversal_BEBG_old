@@ -1,3 +1,5 @@
 old
 .DS*
 .dropbox
+*.m~
+*.asv

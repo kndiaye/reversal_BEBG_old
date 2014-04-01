@@ -1,17 +1,17 @@
-function [varargout] = reversal_MEG(varargin)
+function [varargout] = reversal_task(varargin)
 % Run the REVERSAL TASK
 if nargin<1
-    varargout=reversal_start;
+    varargout=start();
 elseif ischar(varargin{1})
     varargout=feval(varargin{1},varargin{2:end});
 else
-    varargout=reversal_restart(varargin{:});
+    varargout=start2(varargin{:});
 end
 varargout={varargout};
 return
 
 
-function Passation = reversal_start()
+function Passation = start()
 %% 1/ Initialize matlab to run the experiment
 diary;
 %clear('import')
@@ -113,7 +113,7 @@ disp(participant.flags);
 Screen('CloseAll');
 close('all');
 
-Passation = reversal_restart(participant);
+Passation = start2(participant);
 
 % save data
 save(Passation.Filename,'Passation');
@@ -172,20 +172,20 @@ t=[ ...
 
 
 
-function Passation = reversal_restart(participant)
+function Passation = start2(participant)
 global DEBUG
 if DEBUG
     % run experiment
     assignin('base','participant',participant);
     %try
-    [Passation,Passation.ErrorMsg] = reversal_passation(participant);
+    [Passation,Passation.ErrorMsg] = expe(participant);
     %catch ME
     %    rethrow(ME);
     %end
 else
     try
         % run experiment
-        [Passation,Passation.ErrorMsg] = reversal_passation(participant);
+        [Passation,Passation.ErrorMsg] = expe(participant);
     catch ME
         Priority(0);
         Screen('CloseAll');
@@ -202,7 +202,7 @@ end
 
 
 
-function [Passation,errormsg]=reversal_passation(participant)
+function [Passation,errormsg]=expe(participant)
 
 global DEBUG
 Passation=[];
@@ -358,6 +358,7 @@ io.gfx.fix.width = (io.gfx.stimuli.rec(1,3)-io.gfx.stimuli.rec(1))/2;
 
 task.timing = timing;
 
+%% Here starts the task proper
 
 DrawText(io.video.h,'Nous allons commencer la tache...');
 if DEBUG
@@ -417,17 +418,18 @@ function [Data,stopped] = reversal_task(parameters,io)
 global DEBUG
 stopped = 0;
 Data=[];
+
+% BAD should be using 'parameters' argin here
 run('reversal_TaskParameters');
 stimuli=io.gfx.stimuli;
 
 assignin('base','io',io)
 reversaltype = 'standard'; % | 'avoidance' 'perseveration'
 
-i_block = 1;
+i_rev = 1;
 i_trial = 1;
-i_trial_per_block = 1;
+i_trial_per_rev = 1;
 i_trial_per_pair = 1;
-% Starting with sync
 
 % Let's roll it!
 t=t_start;
@@ -439,20 +441,79 @@ stims = [0 0]; % No stims to ignore on 1st block
 while ~stopped && ~terminate
     
     if i_trial_per_pair == 1
+        % (Re)starting (after a pause)
+        if DEBUG
+            fprintf('[ DEBUG ] ');
+        end
+        fprintf('\n\n\n');
+        fprintf('STARTING NEW BLOCK: %02d\n',i_rev);
+
+        if participant.flags.with_eyetracker && ~is_training
+            fprintf('Setting up the eye-tracker...\n');
+            fprintf('Eyelink is probably waiting for "ESC" to continue...\n');
+            EyelinkDoTrackerSetup(io.eyelink);
+            fprintf('Eye-tracker ready!\n');
+            DrawText('.')
+            Screen('FillRect',io.video.h,0);
+        end
+        
+        DrawText(video.h,{'Ca va demarrer.'});
+        Screen('Flip',video.h);
+        
+        fprintf('Appuyez sur [%s] pour demarrer le bloc ',KbName(keywait));
+        if is_training
+            fprintf('d''entrainement \n');
+        else
+            fprintf(' %d \n',iblock);
+        end
+        fprintf('!! Appuyez sur [%s] pour terminer l''experience !!\n',KbName(keyquit));
+        fprintf('\n');
+        key = WaitKeyPress([keywait keyquit]);
+        if isequal(key,2)
+            fprintf(' !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n');
+            fprintf(' !!  Etes vous certain de vouloir quitter ??  !!\n');
+            fprintf('     Appuyez sur [%s] pour terminer  !!\n',KbName(keyquit));
+            fprintf(' !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n');
+            fprintf('\n');
+            key = WaitKeyPress();
+            if isequal(key,keyconfirm)
+                stopped = true;
+                break;
+            end
+        end        
+        
+        if participant.flags.with_eyetracker && ~is_training
+            Eyelink('OpenFile','reversal');
+            Eyelink('StartRecording');
+            fprintf('Eyetracker is recording.\n');
+            fprintf('\n\n\n');
+        end
+        
+        % Dead time before starting the block
+        if ~DEBUG
+            WaitSecs(timing.startofblock);
+        end
+        
+        fprintf('C''est parti ([%s] pour interrompre en cours de bloc)\n',KbName(keystop));
+        fprintf('\n');
+        
+        if flags.with_triggers
+            WriteParPort(0);
+            WaitSecs(0.2);
+        end
         t_start=Screen('Flip',io.video.h);
         if flags.with_triggers
             for i=1:3
                 io.trigger(255);
-                WaitSecs(.100);
+                WaitSecs(.050);
             end
         end
-        fprintf('Time0: Data.timing.t_start = %g\n',t_start);
-        Data.timing.t_start = t_start;        
+        fprintf('Time0: Data.timecode.t_start(%d) = %g\n',i_rev,t_start);
+        Data.timecode.t_start(i_rev) = t_start;
         % Pick at random two new stimuli (different from previous ones)
         stims = setdiff(1:numel(stimuli.tex),stims);
         stims = randpick(stims,2);
         
-        % EYTRACKER HERE !!
     end
     
     % Display each stimulus in a random spatial order (no clear mode)
@@ -461,10 +522,10 @@ while ~stopped && ~terminate
     Screen('DrawTexture',io.video.h,stimuli.tex(stims(2)),[],stimuli.rec(3-side,:));
     t=Screen('Flip',io.video.h,t+io.video.roundfp(timing.intertrial()),1);
     if flags.with_triggers
-        trig.stim.onset+trig.stim.leftright(side)+trig.stim.is_reversal(i_trial_per_block==1)
-        io.trigger(trig.stim.onset+trig.stim.leftright(side)+trig.stim.is_reversal*(i_trial_per_block==1));
+        trig.stim.onset+trig.stim.leftright(side)+trig.stim.is_reversal(i_trial_per_rev==1)
+        io.trigger(trig.stim.onset+trig.stim.leftright(side)+trig.stim.is_reversal*(i_trial_per_rev==1));
     end
-    Data.timing.t_stim(i_trial) = t;
+    Data.timecode.t_stim(i_trial) = t;
     
     if side==1
         fprintf('[(% 2d)  % 2d] ',stims);
@@ -490,7 +551,7 @@ while ~stopped && ~terminate
         % io.trigger(255*(resp==1));
         % io.trigger(255);
     end
-    Data.timing.t_resp(i_trial) = resp_t;
+    Data.timecode.t_resp(i_trial) = resp_t;
     
     
     rt = resp_t-t;
@@ -531,11 +592,11 @@ while ~stopped && ~terminate
         %         io.trigger(255*fb);
         %         io.trigger(255);
     end
-    Data.timing.t_feedback(i_trial) = t;
+    Data.timecode.t_feedback(i_trial) = t;
     
     Data.i_trial(i_trial) = i_trial;
-    Data.i_block(i_trial) = i_block;
-    Data.i_trial_per_block(i_trial) = i_trial_per_block;
+    Data.i_block(i_trial) = i_rev;
+    Data.i_trial_per_block(i_trial) = i_trial_per_rev;
     Data.i_trial_per_pair(i_trial) = i_trial_per_pair;
     
     Data.newblock(i_trial) = newblock;
@@ -549,21 +610,21 @@ while ~stopped && ~terminate
     
     smalltext = '';
     newblock=false;
-    if i_trial_per_block>=task.crit_rev
+    if i_trial_per_rev>=task.crit_rev
         lasttrials = (i_trial-task.crit_rev+1):i_trial;
-        smalltext=sprintf('t: %d, b: %d',i_trial,i_block);
+        smalltext=sprintf('t: %d, b: %d',i_trial,i_rev);
         smalltext=[smalltext '| ' ...
             sprintf('%s',char(46+65*~Data.accu(lasttrials)+3*Data.newblock(lasttrials)))];
         if all(Data.accu(lasttrials))
-            fprintf(', all last %d trials were correct: ',task.crit_rev);
+            fprintf(', >= %d trials were correct: ',task.crit_rev);
             if rand < task.prob_rev(1)
                 fprintf(' now we reverse!\n');
                 newblock = true;
-                stims=stims([2 1]);                
-                if  mod(i_block,task.pause_every_n_rev)==0
+                stims=stims([2 1]);
+                if  mod(i_rev,task.pause_every_n_rev)==0
                     % Pause
                     fprintf('Pause... "space" to continue\n');
-                    DrawText(io.video.h, sprintf('On va faire une pause (%d)....',i_block))
+                    DrawText(io.video.h, sprintf('On va faire une pause (%d)....',i_rev))
                     t=Screen('Flip',io.video.h);
                     pause;%KbTriggerWait(KbName('space'));
                     fprintf('On reprend !\n');
@@ -573,17 +634,17 @@ while ~stopped && ~terminate
                     t=Screen('Flip',io.video.h);
                 end
                 
-                i_block=i_block+1;
-                i_trial_per_block = 0;
-                fprintf('\nStarting block %d\n',i_block);
-                if mod(i_block,task.pause_every_n_rev)==0
+                i_rev=i_rev+1;
+                i_trial_per_rev = 0;
+                fprintf('\nStarting block %d\n',i_rev);
+                if mod(i_rev,task.pause_every_n_rev)==0
                     i_trial_per_pair = 0;
                     stims = randpick(setdiff(1:numel(stimuli.tex),stims),2);
                     fprintf('New stims: %d %d\n',stims);
                 end
-                %if i_block==31
-                %    terminate=true;
-                %end
+                if i_rev==41
+                    terminate=true;
+                end
             end
         end
     end
@@ -595,7 +656,7 @@ while ~stopped && ~terminate
     
     
     i_trial = i_trial+1;
-    i_trial_per_block=i_trial_per_block+1;
+    i_trial_per_rev=i_trial_per_rev+1;
     i_trial_per_pair = i_trial_per_pair + 1;
     fprintf('\n');
     
@@ -1190,7 +1251,7 @@ if numel(trig)>1
         WaitSecs(0.010);
         WriteParPort(trig);
         WaitSecs(0.010);
-        WriteParPort(0);        
+        WriteParPort(0);
     end
 end
 return
@@ -1201,7 +1262,7 @@ system(command);
 if numel(trig)>1
     for t=trig(2:end)'
         WaitSecs(0.010);
-        system(command);       
+        system(command);
     end
 end
 return
@@ -1458,7 +1519,6 @@ catch
     psychrethrow(lasterror);
     
 end
-
 
 
 
