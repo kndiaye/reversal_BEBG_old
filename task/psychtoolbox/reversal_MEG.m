@@ -438,11 +438,11 @@ n_correct_in_a_row = 0;
 
 % Let's roll it!
 newblock  = true;
-terminate = false;
+completed = false;
 stopped   = false;
 stims = [0 0]; % No stims to ignore on 1st block
 
-while ~stopped && ~terminate
+while ~stopped && ~completed
     
     if i_trial_per_stims == 0
         % (Re)starting (after a pause)
@@ -590,7 +590,8 @@ while ~stopped && ~terminate
         % io.trigger(255);
     end
     Data.timecode.t_resp(i_trial) = resp_t;
-        
+    
+    % Reaction time
     rt = resp_t-t;
     fprintf('resp: %d %3.0fms, ',resp,1000*rt);
     
@@ -667,13 +668,16 @@ while ~stopped && ~terminate
     
     fprintf('\n');
 
+    textsize=Screen('TextSize', io.video.h);
     Screen('TextSize', io.video.h, 10);
     DrawText(io.video.h,smalltext,'bl',70);
+    Screen('TextSize', io.video.h, textsize);
+    
     t=Screen('Flip',io.video.h,t+io.video.roundfp(timing.feedback)); 
     
-    if i_rev == 41
-        terminate=true;
-    elseif i_rev>1 && mod(i_rev-1,task.pause_every_n_rev)==0
+    if i_rev > task.end_after_n_rev 
+        completed=true;
+    elseif i_trial_per_rev==0 && i_rev>1 && mod(i_rev-1,task.pause_every_n_rev)==0
         % Pause
         fprintf('Pause...\n');
         DrawText(io.video.h, sprintf('On va faire une pause (%d)....',i_rev))
@@ -683,6 +687,7 @@ while ~stopped && ~terminate
         stims = randpick(setdiff(1:numel(stimuli.tex),stims),2);
         fprintf('New stims: %d %d\n',stims);        
         i_trial_per_stims = 0;
+        
     end
     
     

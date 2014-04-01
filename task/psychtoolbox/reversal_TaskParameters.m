@@ -56,6 +56,7 @@ task.crit_rev = 6; % number of correct trials before rerv
 task.prob_rev = 0.25; %[1-cumprod((1-.25)*ones(1,5)) 1]; 
 task.payoff = [+1 -1];
 task.pause_every_n_rev = 10 ;
+task.end_after_n_rev = 40 ;
 
 
 % "pourcentage" de chance pour que le bon stim ait pour feedback 'faux'
