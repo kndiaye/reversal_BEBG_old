@@ -198,3 +198,38 @@ Passation = reversal_restart(participant);
 Error in <a href="matlab:helpUtils.errorDocCallback('reversal_MEG', 'C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m', 4)" style="font-weight:bold">reversal_MEG</a> (<a href="matlab: opentoline('C:\Users\Nabil\Dropbox\reversal_MEG\psychtoolbox\reversal_MEG.m',4,0)">line 4</a>)
     varargout=reversal_start;
 } 
+Running in folder: /Users/ndiaye/Dropbox/PROJECTS/reversal/reversal_BEBG/task/psychtoolbox
+Running on machine: Puma-Ndiaye.local
+This is supposed to be a DEBUG machine!
+PARTICIPANT INFORMATION:
+
+            date: '20140401-1542'
+        hostname: 'Puma-Ndiaye.local'
+      identifier: 'TEST'
+         session: 1
+    session_name: 'comportementpreop'
+           flags: [1x1 struct]
+
+             with_training: 1
+      with_response_lumina: 0
+       with_response_mouse: 0
+    with_response_keyboard: 1
+             with_triggers: 1
+        with_triggers_1bit: 0
+           with_eyetracker: 0
+            starting_block: 1
+
+
+=======================================
+======= START OF THE EXPERIMENT =======
+=======================================
+
+
+       **********************
+       **********************
+       ***   DEBUG MODE   ***
+       **********************
+       **********************
+
+Data folder should be: /Users/ndiaye/Dropbox/PROJECTS/reversal/reversal_BEBG/task/../data/TEST
+Saving session data in: /Users/ndiaye/Dropbox/PROJECTS/reversal/reversal_BEBG/task/../data/TEST/reversal_20140401-1542_comportementpreop

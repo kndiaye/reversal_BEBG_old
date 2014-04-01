@@ -17,14 +17,13 @@ SESSIONS = {
 
 %% Default Experiment flags
 flags.with_training          = 1; % with initial training bloc?
-flags.with_response_lumina   = 1;%now>datenum(2014,2,27,8,0,0); % Lumina buttons
+flags.with_response_lumina   = 0;%now>datenum(2014,2,27,8,0,0); % Lumina buttons
 flags.with_response_mouse    = 0; % "Lena"-Mouse buttons
 flags.with_response_keyboard = 1; % Keyboard letters
-flags.with_triggers   = 1; % send triggers on parallel port
+flags.with_triggers   = 0  % send triggers on parallel port
 flags.with_triggers_1bit = 0; % Have only 1 bit available
 flags.with_eyetracker = strcmpi('HPC3F9',hostname()); % with eye-tracker?
 flags.starting_block  = 1;
-
 
 
 %% Useful inline functions

@@ -3,3 +3,4 @@ old
 .dropbox
 *.m~
 *.asv
+data/TEST/*

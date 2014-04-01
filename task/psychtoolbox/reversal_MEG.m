@@ -157,7 +157,7 @@ h={'Trial' 'Block' 'Reversal' 'Trial/Block' 'Trial/Pair' ...
     'Prob.Error' 'Feedback'};
 t=[ ...
     Data.i_trial(:) ...
-    Data.i_block(:) ...
+    Data.i_rev(:) ...
     Data.newblock(:) ...
     Data.i_trial_per_rev(:) ...
     Data.i_trial_per_stims(:) ...
@@ -421,7 +421,11 @@ Data=[];
 
 % BAD should be using 'parameters' argin here
 run('reversal_TaskParameters');
+participant = parameters
+participant.flags = flags 
+video = io.video;
 stimuli=io.gfx.stimuli;
+hport=io.hport;
 
 assignin('base','io',io)
 reversaltype = 'standard'; % | 'avoidance' 'perseveration'
@@ -430,6 +434,7 @@ i_rev = 1;
 i_trial = 0;
 i_trial_per_rev = 0;
 i_trial_per_stims = 0;
+n_correct_in_a_row = 0;
 
 % Let's roll it!
 newblock  = true;
@@ -439,7 +444,7 @@ stims = [0 0]; % No stims to ignore on 1st block
 
 while ~stopped && ~terminate
     
-    if i_trial == 0
+    if i_trial_per_stims == 0
         % (Re)starting (after a pause)
         if DEBUG
         fprintf('\n');
@@ -449,7 +454,7 @@ while ~stopped && ~terminate
         fprintf('\n\n\n');     
         fprintf(' * * * STARTING NEW BLOCK/REVERSAL: %02d * * * \n',i_rev);
 
-        if participant.flags.with_eyetracker && ~is_training
+        if flags.with_eyetracker && ~is_training
             fprintf('Setting up the eye-tracker...\n');
             fprintf('Eyelink is probably waiting for "ESC" to continue...\n');
             EyelinkDoTrackerSetup(io.eyelink);
@@ -458,15 +463,15 @@ while ~stopped && ~terminate
             Screen('FillRect',io.video.h,0);
         end
         
-        DrawText(video.h,{'Ca va demarrer.'});
-        Screen('Flip',video.h);
+        DrawText(io.video.h,{'Ca va demarrer.'});
+        Screen('Flip',io.video.h);
         
         fprintf('Appuyez sur [%s] pour demarrer le bloc ',KbName(keywait));
-        if is_training
-            fprintf('d''entrainement \n');
-        else
-            fprintf(' %d \n',iblock);
-        end
+        %         if is_training
+        %             fprintf('d''entrainement \n');
+        %         else
+        %             fprintf(' %d \n',iblock);
+        %         end
         fprintf('!! Appuyez sur [%s] pour terminer l''experience !!\n',KbName(keyquit));
         fprintf('\n');
         key = WaitKeyPress([keywait keyquit]);
@@ -503,6 +508,7 @@ while ~stopped && ~terminate
             WaitSecs(0.2);
         end
         t_start=Screen('Flip',io.video.h);
+        t = t_start;
         if flags.with_triggers
             for i=1:3
                 io.trigger(255);
@@ -521,6 +527,8 @@ while ~stopped && ~terminate
     i_trial_per_rev   = i_trial_per_rev   + 1;
     i_trial_per_stims = i_trial_per_stims + 1;
     
+    fprintf('Trial %03d :',i_trial);
+    
     % Display each stimulus in a random spatial order (no clear mode)
     side = 2-round(rand);
     Screen('DrawTexture',io.video.h,stimuli.tex(stims(1)),[],stimuli.rec(  side,:));
@@ -538,18 +546,43 @@ while ~stopped && ~terminate
         fprintf('[% 2d  (% 2d)] ',stims([2 1]));
     end
     
-    % Collect response from keyboard or mouse
-    resp=0;
-    b=[0 0 0];
-    while ~resp && ~b(1) && ~b(3)
-        [resp,resp_t]=CheckKeyPress([keyresp keystop]);
-        [~,~,b]=GetMouse;
+    % Collect response from buttons, keyboard or mouse
+    resp   = 0;
+    resp_t = NaN;
+    
+    % Clear the response button port, to collect response
+    if participant.flags.with_response_lumina
+        IOPort('Purge',hport);
     end
-    if resp > 2
-        stopped=true;
+    while resp==0 && ~stopped
+        % Now, if not, look at each response mode:
+        if ~resp && participant.flags.with_response_lumina
+            [dat, resp_t] = IOPort('Read',hport);
+            resp_t = resp_t(1);
+            if ~isempty(dat) && ismember(dat(1),datresp)
+                resp = find(datresp == dat(1));
+            end
+        end
+        if ~resp && participant.flags.with_response_mouse
+            [~,~,b]=GetMouse;
+            resp_t = GetSecs;
+            resp=max([1*b(1) 2*b(2+IsWindows)]);
+        end
+        if ~resp && participant.flags.with_response_keyboard
+            [resp,resp_t]=CheckKeyPress(keyresp);
+        end        
+        % Stop by experimenter ?
+        if CheckKeyPress(keystop)
+            t = NaN;
+            fprintf('... stopped!\n');
+            stopped = true;
+            Screen('Flip',video.h);
+            break;
+        end      
+    end
+    if stopped
         break;
     end
-    resp=max([resp 1*b(1) 2*b(3)]);
     if flags.with_triggers
         io.trigger(trig.resp.onset+trig.resp.button(resp));
         % io.trigger(255);
@@ -557,8 +590,7 @@ while ~stopped && ~terminate
         % io.trigger(255);
     end
     Data.timecode.t_resp(i_trial) = resp_t;
-    
-    
+        
     rt = resp_t-t;
     fprintf('resp: %d %3.0fms, ',resp,1000*rt);
     
@@ -632,13 +664,16 @@ while ~stopped && ~terminate
                         
         end
     end
+    
+    fprintf('\n');
+
     Screen('TextSize', io.video.h, 10);
     DrawText(io.video.h,smalltext,'bl',70);
     t=Screen('Flip',io.video.h,t+io.video.roundfp(timing.feedback)); 
-        
-    if i_rev==41
+    
+    if i_rev == 41
         terminate=true;
-    elseif  mod(i_rev-1,task.pause_every_n_rev)==0
+    elseif i_rev>1 && mod(i_rev-1,task.pause_every_n_rev)==0
         % Pause
         fprintf('Pause...\n');
         DrawText(io.video.h, sprintf('On va faire une pause (%d)....',i_rev))
